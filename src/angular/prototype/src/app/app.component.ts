@@ -1,18 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import {COMMA, ENTER} from '@angular/cdk/keycodes'
 import { MatChipInputEvent } from '@angular/material/chips';
 import { PatternService } from 'src/services/pattern.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnDestroy {
   patternFormGroup: FormGroup;
   addOnBlur = true;
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
+  private sub$: Subscription | null = null;
 
   get tileFormControl() {
     return this.patternFormGroup.get('title') as FormControl;
@@ -30,6 +32,10 @@ export class AppComponent {
       title: new FormControl('', [Validators.required]),
       description: new FormControl('', [Validators.required]),
     });
+  }
+
+  ngOnDestroy(): void {
+    this.sub$?.unsubscribe();
   }
 
   add(event: MatChipInputEvent): void {
@@ -53,9 +59,8 @@ export class AppComponent {
   }
 
   submit() {
-    if (!this.patternFormGroup.valid) {
-      return;
-    }
-    this.service.savePatterns({ title: this.tileFormControl.value, description: this.descriptionFormControl.value, tags: this.tags });
+    this.sub$ = this.service.savePatterns({ title: this.tileFormControl.value, description: this.descriptionFormControl.value, tags: this.tags }).subscribe(val => {
+      console.log(val);
+    });
   }
 }

@@ -1,5 +1,5 @@
 <div>
-  <form [formGroup]="patternFormGroup">
+  <form [formGroup]="patternFormGroup" style="width: 50%; margin: auto;">
     <mat-form-field appearance="outline">
       <mat-label>Title</mat-label>
       <input type="text" matInput formControlName="title" placeholder="Title" class="input">
@@ -28,5 +28,6 @@
       </mat-chip-list>
     </mat-form-field>
 
+    <button mat-button color="primary" (click)="submit()" [disabled]="!patternFormGroup.valid">Submit</button>
   </form>
 </div>

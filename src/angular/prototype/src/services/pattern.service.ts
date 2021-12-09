@@ -12,10 +12,10 @@ export class PatternService {
   }
 
   getPatterns(): Observable<Pattern[]> {
-   return this.http.get<Pattern[]>('http://localhost:8080/patterns');
+   return this.http.get<Pattern[]>('http://localhost:5000/patterns');
   }
 
   savePatterns(pattern: Pattern): Observable<void> {
-   return this.http.post<void>('http://localhost:8080/patterns', pattern);
+   return this.http.post<void>('http://127.0.0.1:5000/add-pattern', pattern);
   }
 }
