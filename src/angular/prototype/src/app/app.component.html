@@ -1,0 +1,32 @@
+<div>
+  <form [formGroup]="patternFormGroup">
+    <mat-form-field appearance="outline">
+      <mat-label>Title</mat-label>
+      <input type="text" matInput formControlName="title" placeholder="Title" class="input">
+      <mat-error *ngIf="tileFormControl.hasError('required')">
+        Title is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Description</mat-label>
+      <input type="text" matInput formControlName="description" placeholder="Description" class="input">
+      <mat-error *ngIf="descriptionFormControl.hasError('required')">
+        Description is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="example-chip-list" appearance="outline">
+      <mat-label>Tags</mat-label>
+      <mat-chip-list #chipList aria-label="Tag selection">
+        <mat-chip *ngFor="let tag of tags" (removed)="remove(tag)">
+          {{tag}}
+          <button matChipRemove>
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip>
+        <input placeholder="New Tag..." [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+          [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)">
+      </mat-chip-list>
+    </mat-form-field>
+
+  </form>
+</div>
